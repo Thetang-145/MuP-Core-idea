@@ -1,5 +1,6 @@
 # Folder
 MuP_dataset/
+visualization_data/paper_sections.csv
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
