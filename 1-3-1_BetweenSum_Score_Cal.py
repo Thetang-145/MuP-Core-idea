@@ -68,7 +68,7 @@ def rouge_cal(df):
             df_score[('summary', col)] = df[col]
     df_score = df_score.merge(n_scores(df, score_list), left_on='paper_id', right_on='paper_id')
     for r in rouge_list:
-        df_score_dict[r] = df_score
+        df_score_dict[r] = df_score.copy(deep=True)
 
     df_len = len(df)
     for idx, row in df.iterrows():
@@ -121,7 +121,7 @@ def main(dts="training", cal_rouge=True, cal_bert=True):
     if cal_rouge:
         for n, df in enumerate(df_list):
             if n+1 > 1:
-                if df==None: continue
+                # if df==None: continue
                 dict_result = rouge_cal(df)
                 for key, val in dict_result.items():
                     val.to_csv(f"visualization_data/rouge-between-sum/{key}/{dts}_{key}_{n+1}sum.csv")
@@ -130,9 +130,8 @@ def main(dts="training", cal_rouge=True, cal_bert=True):
     if cal_bert:
         for n, df in enumerate(df_list):
             if n+1 > 1:
-                if df==None: continue
                 result = bertscore_cal(df)
                 val.to_csv(f"visualization_data/bertscore-between-sum/{dts}_bertscore_{n+1}sum.csv")
 
 if __name__ == '__main__':
-    main(dts="validation", cal_bert=False)
+    main(dts="training", cal_bert=False)
